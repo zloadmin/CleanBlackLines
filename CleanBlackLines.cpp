@@ -6,7 +6,7 @@ using namespace std;
 
 bool isBlackPixel(Vec3b bgrPixel);
 int getPercentOfBlackPixels(double black_pixels, double row);
-void showColorRGB(Vec3b bgrPixel);
+vector<bool> getBlackLines(Mat image);
 
 const int BLACK_LIMIT = 27;
 const int PERCENT_OF_BLACK = 75;
@@ -26,27 +26,8 @@ int main(int argc, char **argv) {
         printf("No image data \n");
         return -1;
     }
-    int black_pixels[image.cols];
-    for (int i = 0; i < image.rows; i++) {
-        black_pixels[i] = 0;
-        for (int j = 0; j < image.cols; j++) {
-            Vec3b bgrPixel = image.at<Vec3b>(i, j);
-
-            if (isBlackPixel(bgrPixel)) {
-                black_pixels[i]++;
-            }
-//            cout << bgrPixel << "\n";
-            // do something with BGR values...
-        }
-
-//        if(i > 1800 && i < 2000) {
-//                cout << "Number of line " << i << ", percent of black pixels - " << black_pixels[i] << "\n";
-//        }
-
-        int p = getPercentOfBlackPixels(black_pixels[i], image.cols);
-
-        if(p > PERCENT_OF_BLACK ) cout << "Number of line " << i << ", percent of black pixels - " << p << "%" << "\n";
-    }
+    bool *black_lines = getBlackLines(image);
+    cout << black_lines;
 //    namedWindow("Display Image", WINDOW_AUTOSIZE );
 //    imshow("Display Image", image);
 
@@ -63,13 +44,29 @@ bool isBlackPixel(Vec3b bgrPixel) {
 }
 
 int getPercentOfBlackPixels(double black_pixels, double row) {
-    return  black_pixels > 0 ? black_pixels / row * 100 : 0;
+    return black_pixels > 0 ? black_pixels / row * 100 : 0;
 }
-void showColorRGB(Vec3b bgrPixel)
-{
-    int B = bgrPixel.val[0];
-    int G = bgrPixel.val[1];
-    int R = bgrPixel.val[2];
-    cout << "[" << R << ", " << G << ", " << B << "]" << "\n";
-//    cout << "R " << R << " G " << G << " B " << B << "\n";
+
+
+
+vector<bool> getBlackLines(Mat image) {
+
+    int black_pixels[image.cols];
+    vector<bool> black_lines[image.cols];
+    for (int i = 0; i < image.rows; i++) {
+        black_pixels[i] = 0;
+        black_lines[i] = false;
+        for (int j = 0; j < image.cols; j++) {
+            Vec3b bgrPixel = image.at<Vec3b>(i, j);
+            if (isBlackPixel(bgrPixel)) {
+                black_pixels[i] = true;
+            }
+        }
+        int p = getPercentOfBlackPixels(black_pixels[i], image.cols);
+
+        if (p > PERCENT_OF_BLACK) {
+            *black_lines[i] = true;
+        }
+    }
+    return *black_lines;
 }
