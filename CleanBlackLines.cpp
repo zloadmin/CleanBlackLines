@@ -52,13 +52,12 @@ int main(int argc, char **argv) {
             }
         }
     }
-    if(changed) {
-        printf("Detected black lines, file will change\n");
-		printf("Copy original file befor changes\n");
+	string old_file_path = getOldFilePath(argv);
+	string new_file_path = getNewFilePath(argv);
 
+    if(changed) {
+      
 		bool is_copyed = false;
-		string old_file_path = getOldFilePath(argv);
-		string new_file_path = getNewFilePath(argv);
 
 		try {
             fs::copy_file(old_file_path, new_file_path);
@@ -79,11 +78,14 @@ int main(int argc, char **argv) {
 	            fs::copy_file(new_file_path, old_file_path);
 	            return 1;
 	        }
-	        fprintf(stdout, "Saved JPG file.\n");
+	       cout << old_file_path << " - DONE. COPY " << new_file_path << "\n";
         } else {
         	printf("Error of copy file. File has not been cahnged\n");
         }
+        
         return 0;
+    } else {
+    	cout << old_file_path << " - SKIP" << "\n";
     }
 
     waitKey(0);
