@@ -24,6 +24,8 @@ int main(int argc, char **argv) {
         printf("usage: CleanBlackLines <Image_Path>\n");
         return -1;
     }
+    bool debug = false;
+    if (argc == 3) debug = true;
     if (debug) cout << "Start file " << argv[1] << "\n";
     Mat image;
     image = imread(argv[1], 1);
@@ -33,8 +35,8 @@ int main(int argc, char **argv) {
     } else {
         if (debug) cout << "Loaded file " << argv[1] << "\n";
     }
-    bool debug = false;
-    if (argc == 3) debug = true;
+
+
     
     if (debug) cout << "Image size  rows: " << image.rows << ", cols " << image.cols << "\n";
     int black_pixels[image.rows];
@@ -98,9 +100,6 @@ int main(int argc, char **argv) {
     } else {
         cout << old_file_path << " - SKIP" << "\n";
     }
-
-    waitKey(0);
-
     return 0;
 }
 
