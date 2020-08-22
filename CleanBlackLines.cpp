@@ -17,7 +17,7 @@ string getNewFilePath(char **argv);
 string getOldFilePath(char **argv);
 
 const int BLACK_LIMIT = 27;
-const int PERCENT_OF_BLACK = 75;
+const int PERCENT_OF_BLACK = 65;
 
 int main(int argc, char **argv) {
     if (argc < 2) {
@@ -51,6 +51,7 @@ int main(int argc, char **argv) {
         }
 
         int p = getPercentOfBlackPixels(black_pixels[i], image.cols);
+        if (debug) cout << "Percent of pixels " << p << "\n";
         if (p > PERCENT_OF_BLACK) {
             changed = true;
             for (int jk = 0; jk < image.cols; jk++) {
