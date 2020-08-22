@@ -31,9 +31,9 @@ int main(int argc, char **argv) {
         return -1;
     }
     bool debug = false;
-    if(argc == 3) debug = true; 
-    if(debug) cout << "Start file " << argv[1] << "\n";
-    if(debug) cout << "Image size  rows: " << image.rows << ", cols " << image.cols << "\n";
+    if (argc == 3) debug = true;
+    if (debug) cout << "Start file " << argv[1] << "\n";
+    if (debug) cout << "Image size  rows: " << image.rows << ", cols " << image.cols << "\n";
     int black_pixels[image.rows];
     bool changed = false;
     for (int i = 0; i < image.rows; i++) {
@@ -58,14 +58,14 @@ int main(int argc, char **argv) {
             }
         }
     }
-    if(debug) cout << "Cahnged  " << changed << "\n";
+    if (debug) cout << "Cahnged  " << changed << "\n";
     string old_file_path = getOldFilePath(argv);
     string new_file_path = getNewFilePath(argv);
 
     if (changed) {
 
         bool is_copyed = false;
-        if(debug) cout << "Copy file to   " << new_file_path << "\n";
+        if (debug) cout << "Copy file to   " << new_file_path << "\n";
         try {
             fs::copy_file(old_file_path, new_file_path);
             is_copyed = true;
@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
         }
 
         if (is_copyed) {
-            if(debug) cout << "Save file to  " << old_file_path << "\n";
+            if (debug) cout << "Save file to  " << old_file_path << "\n";
             try {
                 imwrite(old_file_path, image);
             }
