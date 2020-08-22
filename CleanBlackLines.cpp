@@ -16,7 +16,7 @@ string getNewFilePath(char **argv);
 
 string getOldFilePath(char **argv);
 
-const int BLACK_LIMIT = 27;
+const int BLACK_LIMIT = 10;
 const int PERCENT_OF_BLACK = 65;
 
 int main(int argc, char **argv) {
