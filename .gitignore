@@ -6,4 +6,5 @@ cmake_install.cmake
 CleanBlackLines
 Makefile
 1.jpg
+1_ORIGIN_.jpg
 .idea/

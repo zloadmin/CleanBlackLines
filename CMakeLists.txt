@@ -3,3 +3,5 @@ project( CleanBlackLines )
 find_package( OpenCV REQUIRED )
 add_executable( CleanBlackLines CleanBlackLines.cpp )
 target_link_libraries( CleanBlackLines ${OpenCV_LIBS} )
+
+target_link_libraries(CleanBlackLines stdc++fs)
