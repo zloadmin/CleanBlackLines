@@ -24,15 +24,18 @@ int main(int argc, char **argv) {
         printf("usage: CleanBlackLines <Image_Path>\n");
         return -1;
     }
+    if (debug) cout << "Start file " << argv[1] << "\n";
     Mat image;
     image = imread(argv[1], 1);
     if (!image.data) {
         printf("No image data \n");
         return -1;
+    } else {
+        if (debug) cout << "Loaded file " << argv[1] << "\n";
     }
     bool debug = false;
     if (argc == 3) debug = true;
-    if (debug) cout << "Start file " << argv[1] << "\n";
+    
     if (debug) cout << "Image size  rows: " << image.rows << ", cols " << image.cols << "\n";
     int black_pixels[image.rows];
     bool changed = false;
