@@ -20,7 +20,7 @@ const int BLACK_LIMIT = 27;
 const int PERCENT_OF_BLACK = 75;
 
 int main(int argc, char **argv) {
-    if (argc != 2) {
+    if (argc < 2) {
         printf("usage: CleanBlackLines <Image_Path>\n");
         return -1;
     }
@@ -30,9 +30,11 @@ int main(int argc, char **argv) {
         printf("No image data \n");
         return -1;
     }
-
-
-    int black_pixels[image.cols];
+    bool debug = false;
+    if(argc == 3) debug = true; 
+    if(debug) cout << "Start file " << argv[1] << "\n";
+    if(debug) cout << "Image size  rows: " << image.rows << ", cols " << image.cols << "\n";
+    int black_pixels[image.rows];
     bool changed = false;
     for (int i = 0; i < image.rows; i++) {
         black_pixels[i] = 0;
@@ -42,25 +44,28 @@ int main(int argc, char **argv) {
                 black_pixels[i]++;
             }
         }
+
         int p = getPercentOfBlackPixels(black_pixels[i], image.cols);
         if (p > PERCENT_OF_BLACK) {
             changed = true;
-            for (int j = 0; j < image.cols; j++) {
-                Vec3b bgrPixel = image.at<Vec3b>(i, j);
+            for (int jk = 0; jk < image.cols; jk++) {
+                Vec3b bgrPixel = image.at<Vec3b>(i, jk);
                 bgrPixel[0] = 0;
                 bgrPixel[1] = 0;
                 bgrPixel[2] = 0;
-                image.at<Vec3b>(i, j) = bgrPixel;
+                image.at<Vec3b>(i, jk) = bgrPixel;
+
             }
         }
     }
+    if(debug) cout << "Cahnged  " << changed << "\n";
     string old_file_path = getOldFilePath(argv);
     string new_file_path = getNewFilePath(argv);
 
     if (changed) {
 
         bool is_copyed = false;
-
+        if(debug) cout << "Copy file to   " << new_file_path << "\n";
         try {
             fs::copy_file(old_file_path, new_file_path);
             is_copyed = true;
@@ -71,6 +76,7 @@ int main(int argc, char **argv) {
         }
 
         if (is_copyed) {
+            if(debug) cout << "Save file to  " << old_file_path << "\n";
             try {
                 imwrite(old_file_path, image);
             }
